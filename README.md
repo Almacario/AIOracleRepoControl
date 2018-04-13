@@ -8,7 +8,7 @@ Arduino code thanks:<br />
   Pololu Robotics and Electronics for led_strip library available here(https://github.com/pololu/pololu-led-strip-arduino)<br />
   J.Rodrigo for HR-SC04 Ultrasonic Ranging Module(https://github.com/JRodrigoTech/Ultrasonic-HC-SR04 - http://www.jrodrigo.net)
   <br /><br />
-For any information regarding the codes you can contact: 
+For any information regarding the codes you can contact: <br />
 Alberto Macario: alberto.macario@hotmail.it
 
 <br /><br />
