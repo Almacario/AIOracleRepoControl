@@ -1,0 +1,14 @@
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\bin\Debug\artInstallation.exe.config
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\bin\Debug\artInstallation.exe
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\bin\Debug\artInstallation.pdb
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.csprojResolveAssemblyReference.cache
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.mainForm.resources
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.Properties.Resources.resources
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.csproj.GenerateResource.Cache
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.exe
+c:\users\alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.pdb
+C:\Users\Alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\bin\Debug\Interop.WMPLib.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\Interop.WMPLib.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\artInstallation\artInstallation\obj\Debug\artInstallation.csproj.ResolveComReference.cache
