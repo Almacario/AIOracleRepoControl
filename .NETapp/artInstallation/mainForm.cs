@@ -15,11 +15,13 @@ namespace artInstallation
 {
     public partial class mainForm : Form
     {
+        public const int TIME_BETWEEN_TWO_PEOPLE = 5000; //milliseconds between exiting and entering people
+
         static SerialPort _serialPort;
-        WMPLib.WindowsMediaPlayer player = new WMPLib.WindowsMediaPlayer();
         int cntStates;
+        int loopState=0;
+        int counterPeople = 0;
         int cntVirtualConsole;
-        int S1, S2, S3, S4;
         bool connected;
         ThreadStart childref;
         Thread childThread;
@@ -34,6 +36,7 @@ namespace artInstallation
             loadPorts();
             listMusic.DataSource = File.ReadAllLines("./trackList.txt");
             writeState("Program ready to work");
+            labelCounter.Text = "0";
         }
 
         private void randomTrack()
@@ -41,8 +44,11 @@ namespace artInstallation
             Random random=new Random();
             if (listMusic.Items.Count > 0)
             {
-                int num = random.Next(listMusic.Items.Count);
-                axWindowsMediaPlayer1.URL = listMusic.Items[num].ToString();
+                int num = random.Next(listMusic.Items.Count-3);
+                this.BeginInvoke(new Action(() =>
+                {
+                    this.axWindowsMediaPlayer1.URL = listMusic.Items[num + 3].ToString();
+                }));                
                 writeState("Random track is played");
             }
         }
@@ -59,9 +65,16 @@ namespace artInstallation
         }
 
         private void serialWrite(string str)
-        {            
-            virtualConsole.AppendText("[COMPUTER:] Writes: "+ str + "\n");
-            _serialPort.Write(str);
+        {
+            if (connected)
+            {
+                virtualConsole.AppendText("[COMPUTER:] Writes: " + str + "\n");
+                _serialPort.Write(str);
+            }
+            else
+            {
+                MessageBox.Show("Arduino not connected");
+            }
         }
 
         private void check()
@@ -75,21 +88,39 @@ namespace artInstallation
         {
             while (true)
             {
-                if (cntVirtualConsole > 10000)
+                try
                 {
-                    virtualConsole.Text = "";
-                    cntVirtualConsole = 0;
-                }
-                string a = _serialPort.ReadExisting();
-                if(a.Length>0){
-                    virtualConsole.AppendText(a);
-                    cntVirtualConsole++;
-                    if (a.Contains("DDDDDDDDDD")) {
-                        serialWrite("h");
-                        randomTrack();
+                    if (cntVirtualConsole > 10000)
+                    {
+                        virtualConsole.Text = "";
+                        cntVirtualConsole = 0;
                     }
+                    string a = _serialPort.ReadExisting();
+                    if (a.Length > 0)
+                    {
+                        virtualConsole.AppendText(a);
+                        cntVirtualConsole++;
+                        if (a.Contains("DDDDDDDDDD"))
+                        {
+                            counterPeople++;
+                            labelCounter.Text = counterPeople.ToString();
+                            serialWrite("h");
+                            axWindowsMediaPlayer1.URL = listMusic.Items[0].ToString();
+                        }
+                        if (a.Contains("@"))
+                        {
+                            serialWrite("p");
+                            axWindowsMediaPlayer1.URL = listMusic.Items[2].ToString();
+                        }
+                    }
+                    Thread.Sleep(200);
                 }
-                Thread.Sleep(200);
+                catch
+                {
+                    MessageBox.Show("Problem arduino connection, re-connect to the port");
+                    connected = false;
+                    childThread.Abort();
+                }
             }
         }
 
@@ -114,9 +145,11 @@ namespace artInstallation
                 writeState("The device is successfully connected to the PC");
                 connected = true;
                 virtualConsole.HideSelection = false;
+                stateBox.HideSelection = false;
                 check();
             }
             catch{
+                connected = false;
                 MessageBox.Show("Connection not successful", "Connection error");
             }
         }
@@ -215,13 +248,9 @@ namespace artInstallation
         }
         private void checkTest()
         {
-            if (connected)
+            if (!connected)
             {
-                writeState("Test started");
-            }
-            else
-            {
-                writeState("Connection not established, test not available");
+                writeState("Connection not established");
             }
         }
 
@@ -251,12 +280,46 @@ namespace artInstallation
         private void startBtn_Click(object sender, EventArgs e)
         {
             checkTest();
+            loopState = 0;
             serialWrite("e");
         }
 
         private void virtualConsole_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+
+        private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
+            {
+                if (loopState == 0)
+                {
+                    
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        this.axWindowsMediaPlayer1.URL = listMusic.Items[1].ToString();
+                    }));
+                    serialWrite("k");
+                    loopState = 1;
+                    writeState("First track ended, next instruction");
+                }else if (loopState == 1){
+                    serialWrite("y");
+                    loopState = 2;
+                    writeState("Second track ended, next instruction");
+                }else if (loopState == 2){
+                    randomTrack();
+                    loopState = 3;
+                }else if (loopState == 3)
+                {
+                    //TOTAL RESET
+                    serialWrite("z");
+                    loopState = 0;
+                    writeState("Routine ended, now I will wait the timer before restart");
+                    Thread.Sleep(TIME_BETWEEN_TWO_PEOPLE);
+                }
+            }
         }
     }
 }

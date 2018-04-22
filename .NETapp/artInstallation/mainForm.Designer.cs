@@ -47,6 +47,7 @@
             this.stateBox = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSensor = new System.Windows.Forms.Button();
+            this.labelCounter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -201,6 +202,7 @@
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(333, 105);
             this.axWindowsMediaPlayer1.TabIndex = 13;
+            this.axWindowsMediaPlayer1.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.axWindowsMediaPlayer1_PlayStateChange);
             // 
             // btnRandom
             // 
@@ -244,11 +246,23 @@
             this.btnSensor.UseVisualStyleBackColor = true;
             this.btnSensor.Click += new System.EventHandler(this.btnSensor_Click);
             // 
+            // labelCounter
+            // 
+            this.labelCounter.AutoSize = true;
+            this.labelCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCounter.ForeColor = System.Drawing.Color.DarkRed;
+            this.labelCounter.Location = new System.Drawing.Point(252, 5);
+            this.labelCounter.Name = "labelCounter";
+            this.labelCounter.Size = new System.Drawing.Size(118, 42);
+            this.labelCounter.TabIndex = 34;
+            this.labelCounter.Text = "label2";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 459);
+            this.Controls.Add(this.labelCounter);
             this.Controls.Add(this.btnSensor);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.stateBox);
@@ -299,6 +313,7 @@
         private System.Windows.Forms.RichTextBox stateBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSensor;
+        private System.Windows.Forms.Label labelCounter;
     }
 }
 
