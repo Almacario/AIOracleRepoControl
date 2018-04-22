@@ -3,11 +3,11 @@
 
 This repository contains the .ino and C# programs for the control of: AI Oracle installation.
 Basically it is a C# .NET interface that communicates serially with Arduino allowing the programmed control of sounds, lights and fog machine.
-<br />You can find more information about the installation itself at: @refpage 
+<br />You can find more information about the installation itself at: aioracle.info
 <br />Contacts: Piera Riccio https://www.linkedin.com/in/piera-riccio-96649211a/<br /><br />
 
 Arduino code thanks:<br />
-  Pololu Robotics and Electronics for led_strip library available here(https://github.com/pololu/pololu-led-strip-arduino)<br />
+  Pololu Robotics and Electronics for led_strip library(https://github.com/pololu/pololu-led-strip-arduino)<br />
   J.Rodrigo for HR-SC04 Ultrasonic Ranging Module(https://github.com/JRodrigoTech/Ultrasonic-HC-SR04 - http://www.jrodrigo.net)
   <br /><br />
 For any information regarding the codes you can contact: <br />
