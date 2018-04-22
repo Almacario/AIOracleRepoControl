@@ -20,6 +20,7 @@ rgb_color colors[LED_COUNT];
 int startingLed=0;
 int vel=1;
 int state=1;
+bool smokeStatus=0;
 int S1value;
 int color1[3]={178,51,255};
 int color2[3]={51,234,255};
@@ -29,6 +30,7 @@ bool start=false;
 
 void lightsSetup();
 void sensorSetup();
+void fogSetup();
 void lightsMoveset();
 void reset();
 
@@ -55,6 +57,7 @@ void loop() {
       case 'c':
         Serial.println("Smoke test requested");  
         //CODE FOR SMOKE TEST
+        fogRequest();
         break;
       case 'd':
         Serial.println("Sensor test requested");  
@@ -73,7 +76,25 @@ void loop() {
         }
         break;
       case 'h':
+        Serial.println("audio request and fog"); 
         state=2;
+        break;
+      case 'k':
+        Serial.println("fog off"); 
+        state=3;
+        break;
+      case 'y':
+        Serial.println("lights on"); 
+        state=4;
+        break;
+      case 'p':
+        Serial.println("lights off"); 
+        state=6;
+        break;
+      case 'z':
+        Serial.println("Reset performed"); 
+        reset();
+        break;
       default:
         break;
     }      
@@ -84,9 +105,34 @@ void loop() {
         sensorOn();
         break;
       case 2:
+        fogRequest();
+        //lightsMoveset();
+        break;
+      case 3:
         lightsMoveset();
         break;
+      case 4:
+        //fogRequest();
+        lightsSetup();
+        state=5;
+        break;
+      case 5:
+        Serial.print("@");
+        break;
+      case 6:
+        break;
     }
+  }
+}
+
+void fogRequest(){
+  if(smokeStatus){
+    smokeStatus=false;
+    digitalWrite(2,LOW);
+  }
+  else{
+    smokeStatus=true;
+    digitalWrite(2,HIGH);
   }
 }
 
@@ -94,6 +140,13 @@ void reset(){
   state=1;
   lightsSetup();
   sensorSetup();
+  fogSetup();
+}
+
+void fogSetup(){
+  pinMode(2, OUTPUT); // SIGNAL
+  digitalWrite(2, LOW); // VCC +5V mode
+  smokeStatus=false;
 }
 
 void sensorSetup(){
@@ -111,6 +164,11 @@ void lightsSetup()
   currentColor[2]=color1[2];
   startingLed=0;
   vel=1;
+  for (int i = 0; i < LED_COUNT; i++)
+  {
+      colors[i] = rgb_color(0, 0, 0);
+  }
+  ledStrip.write(colors, LED_COUNT);
 }
 
 void sensorOn(){
